@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
+    <title>Slack Text to Emoji Converter :D</title>
+  </head>
+
+  <body>
+    <main class="container">
+      <article>
+        <header>
+          <h1>Slack Text to Emoji Converter :D</h1>
+          <textarea placeholder="Mesajını gir :D" textInput autofocus></textarea>
+        </header>
+        <input readonly generated data-color="white" />
+        <input readonly generated data-color="yellow" />
+        <small message>:D</small>
+      </article>
+    </main>
+  </body>
+
+  <script>
+    const textInput = document.querySelector("[textInput]");
+    const generatedTextInputs = document.querySelectorAll("[generated]");
+    const message = document.querySelector("[message]");
+    const bannedChars = /[^a-zA-Z ?!#@]/g;
+    const customChars = {
+      "?": "question",
+      "!": "exclamation",
+      "#": "hash",
+      "@": "at",
+    };
+
+    const space = "    ";
+
+    function convert(text) {
+      if (bannedChars.test(text)) {
+        text = text.replace(bannedChars, "");
+        textInput.value = text;
+      }
+
+      for (let generatedInput of generatedTextInputs) {
+        let newText = "";
+        const color = generatedInput.dataset.color;
+
+        for (let char of text) {
+          // newText += char === " " ? space : `:alphabet-${color}-${char.toLowerCase()}:`;
+          newText += char === " " ? space : `:alphabet-${color}-${customChars[char] || char.toLowerCase()}:`;
+        }
+
+        generatedInput.value = newText;
+      }
+    }
+
+    textInput.addEventListener("input", e => convert(e.target.value));
+
+    function copyGenerated(input) {
+      if (!input.value) return;
+      input.select();
+      navigator.clipboard.writeText(input.value);
+      input.setSelectionRange(0, 0);
+      input.setAttribute("aria-invalid", "false");
+      message.innerText = "Kopyaladım :D";
+
+      setTimeout(() => {
+        input.removeAttribute("aria-invalid");
+        message.innerText = ":D";
+      }, 1000);
+    }
+
+    for (let generatedInput of generatedTextInputs) {
+      generatedInput.addEventListener("click", () => copyGenerated(generatedInput));
+    }
+  </script>
+</html>
