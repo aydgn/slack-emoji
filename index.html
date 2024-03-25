@@ -46,7 +46,6 @@
         const color = generatedInput.dataset.color;
 
         for (let char of text) {
-          // newText += char === " " ? space : `:alphabet-${color}-${char.toLowerCase()}:`;
           newText += char === " " ? space : `:alphabet-${color}-${customChars[char] || char.toLowerCase()}:`;
         }
 
@@ -71,8 +70,8 @@
       }, 1500);
     }
 
-    for (let generatedInput of generatedTextInputs) {
-      generatedInput.addEventListener("click", () => copyGenerated(generatedInput));
-    }
+    generatedTextInputs.forEach(input => {
+      input.addEventListener("click", () => copyGenerated(input));
+    });
   </script>
 </html>
