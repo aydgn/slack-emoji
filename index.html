@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css" />
     <title>Slack Text to Emoji Converter :D</title>
+    <script defer src="./app.js"></script>
     <script type="text/javascript">
       (function(c,l,a,r,i,t,y){
           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
           t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
       })(window, document, "clarity", "script", "lprrr06ovq");
-  </script>
+    </script>
   </head>
 
   <body>
@@ -27,58 +28,4 @@
       </article>
     </main>
   </body>
-
-  <script type="module">
-    const textInput = document.querySelector("[textInput]");
-    const generatedTextInputs = document.querySelectorAll("[generated]");
-    const message = document.querySelector("[message]");
-    const bannedChars = /[^a-zA-Z ?!#@]/g;
-    const customChars = {
-      "?": "question",
-      "!": "exclamation",
-      "#": "hash",
-      "@": "at",
-    };
-
-    const space = "    ";
-
-    function convert(text) {
-      if (bannedChars.test(text)) {
-        text = text.replace(bannedChars, "");
-        textInput.value = text;
-      }
-
-      for (let generatedInput of generatedTextInputs) {
-        let newText = "";
-        const color = generatedInput.dataset.color;
-
-        for (let char of text) {
-          newText += char === " " ? space : `:alphabet-${color}-${customChars[char] || char.toLowerCase()}:`;
-        }
-
-        generatedInput.value = newText;
-      }
-    }
-
-    textInput.addEventListener("input", e => convert(e.target.value));
-
-    function copyGenerated(input) {
-      if (!input.value) return;
-      input.select();
-      navigator.clipboard.writeText(input.value);
-      input.setSelectionRange(0, 0);
-      input.setAttribute("aria-invalid", "false");
-      message.innerText = "Kopyaladım :D";
-
-      setTimeout(() => {
-        input.removeAttribute("aria-invalid");
-        message.innerText = ":D";
-        textInput.select();
-      }, 1500);
-    }
-
-    generatedTextInputs.forEach(input => {
-      input.addEventListener("click", () => copyGenerated(input));
-    });
-  </script>
 </html>
