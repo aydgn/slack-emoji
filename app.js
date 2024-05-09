@@ -34,28 +34,28 @@ function generateEmojiCodes(text) {
 
   // Initialize emoji code strings for each color
   let whiteEmojiCode = "";
-  let orangeEmojiCode = "";
+  let yellowEmojiCode = "";
 
   for (const char of text) {
     if (numbers.hasOwnProperty(char)) {
       // Handle numbers
       whiteEmojiCode += `:${numbers[char]}:`;
-      orangeEmojiCode += `:${numbers[char]}:`;
+      yellowEmojiCode += `:${numbers[char]}:`;
     } else if (char === " ") {
       // Handle spaces
       whiteEmojiCode += space;
-      orangeEmojiCode += space;
+      yellowEmojiCode += space;
     } else {
       // Handle letters and special characters
       const emojiKeyword = customChars[char] || char.toLowerCase();
       whiteEmojiCode += `:alphabet-white-${emojiKeyword}:`;
-      orangeEmojiCode += `:alphabet-orange-${emojiKeyword}:`;
+      yellowEmojiCode += `:alphabet-yellow-${emojiKeyword}:`;
     }
   }
 
   // Update the value of the emoji output fields only once
   emojiOutputFields[0].value = whiteEmojiCode;
-  emojiOutputFields[1].value = orangeEmojiCode;
+  emojiOutputFields[1].value = yellowEmojiCode;
 }
 
 userInput.addEventListener("input", e => generateEmojiCodes(e.target.value));
